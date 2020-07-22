@@ -16,8 +16,8 @@ exports.callDB = async (query) => {
             conn.end();
             return result;
         }).then(([rows, fields]) => {
-            console.log(rows[0].name);
-            resolve(rows[0].name);
+            console.log(rows);
+            resolve(rows);
         }).catch(err => {
             reject(err)
         });
