@@ -1,16 +1,25 @@
-const mysql = require("mysql");
-const dbConfig = require("../config/dbConfig.js");
+const mysql = require('promise-mysql2');
+const dbConfig = require('../config/dbConfig');
 
-const connection = mysql.createConnection({
+// Credentials for connection
+const config = {
     host: dbConfig.HOST,
     user: dbConfig.USER,
     password: dbConfig.PASSWORD,
     database: dbConfig.DB
-});
+};
 
-connection.connect(error => {
-    if(error) throw error;
-    console.log("Successfully connected to the database.");
-});
-
-module.exports = connection;
+exports.callDB = async (query) => {
+    return new Promise((resolve, reject) => {
+        mysql.createConnection(config).then((conn) => {
+            let result = conn.query(query);
+            conn.end();
+            return result;
+        }).then(([rows, fields]) => {
+            console.log(rows[0].name);
+            resolve(rows[0].name);
+        }).catch(err => {
+            reject(err)
+        });
+    });
+}

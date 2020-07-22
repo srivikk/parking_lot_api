@@ -1,13 +1,19 @@
-const Parking = require("../models/parkingModel.js");
+const { callDB } = require('../models/db')
 
-exports.findAll = (req,res) => {
-    Parking.getAll((err,data) => {
-        if(err)
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while retrieving data."
-            });
+exports.getLot = async (req, res) => {
+    const lotList = await callDB('SELECT name FROM parking_lot')
+    console.log(lotList)
+    res.send(lotList)
+};
 
-        else res.send(data);
-    });
+exports.getLotName = async (req, res) => {
+
+};
+
+exports.getBayName = async (req, res) => {
+
+};
+
+exports.getData = async (req, res) => {
+
 };
